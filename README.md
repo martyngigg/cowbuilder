@@ -10,5 +10,5 @@ Some rough and ready helper scripts for:
 To push `.changes` file to a PPA:
 
 ```
-dput ppa:martyngigg/martyngigg FILENAME.changes
+dput ppa:NAMESPACE/ppa-name FILENAME.changes
 ```
