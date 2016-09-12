@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# Takes a the name of the distribution and builds a package
-#
+# Takes a the name of the distribution and updates the cowbuilder
 if [ ! `id -u` = 0 ] ; then
     echo "Please run this script as root"
     exit 1
@@ -21,5 +20,4 @@ DISTRIB=$1
 PBUILDERRC=$HOME/.pbuilderrc
 COW_BASE=/var/cache/pbuilder/$DISTRIB-amd64/base.cow
 
-DIST=$DISTRIB pdebuild --use-pdebuild-internal --configfile $PBUILDERRC --pbuilder \
-  cowbuilder -- --basepath=$COW_BASE
+DIST=$DISTRIB cowbuilder --configfile $PBUILDERRC --update --basepath=$COW_BASE

@@ -2,13 +2,23 @@
 #
 # Takes a the name of the distribution and creates a new pbuilder
 # environment at /var/cache/pbuilder/DIST-amd64
+if [ ! `id -u` = 0 ] ; then
+    echo "Please run this script as root"
+    exit 1
+fi
 
 if [ ! $# -eq 1 ]; then
     echo "Usage: $0 codename"
     exit 1
 fi
 
+if [ ! -f $HOME/.pbuilderrc ]; then
+  echo "$HOME/.pbuilderrc does not exist."
+  exit 1
+fi
+
 DISTRIB=$1
+PBUILDERRC=$HOME/.pbuilderrc
 COW_BASE=/var/cache/pbuilder/$DISTRIB-amd64/base.cow
 COW_BASE_DIR=$(dirname $COW_BASE)
 GPG_KEY=/usr/share/keyrings/ubuntu-archive-keyring.gpg
@@ -37,4 +47,4 @@ mkdir -p $BUILDRESULT
 echo "Running cowbuilder --create"
 DIST=$DISTRIB cowbuilder --create --distribution $DISTRIB --components "main universe" \
     --basepath $COW_BASE --debootstrapopts --arch --debootstrapopts amd64 \
-    --debootstrapopts --variant=buildd --keyring=$GPG_KEY
+    --debootstrapopts --variant=buildd --keyring=$GPG_KEY --configfile=$PBUILDERRC

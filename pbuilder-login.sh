@@ -9,12 +9,13 @@ if [ ! $# -eq 1 ]; then
 fi
 
 if [ ! -f $HOME/.pbuilderrc ]; then
-  echo "$HOME/.pbuilderrc does not exist. Please run this script with sudo HOME=\$HOME $0"
+  echo "$HOME/.pbuilderrc does not exist."
   exit 1
 fi
 
 DISTRIB=$1
+PBUILDERRC=$HOME/.pbuilderrc
 COW_BASE=/var/cache/pbuilder/$DISTRIB-amd64/base.cow
 
-DIST=$DISTRIB cowbuilder --login --basepath=$COW_BASE \
+sudo DIST=$DISTRIB cowbuilder --configfile $PBUILDERRC --login --basepath=$COW_BASE \
     --save-after-login
